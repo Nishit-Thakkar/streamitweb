@@ -83,12 +83,13 @@ if option == 'Choose your own image':
 else:
     test_images = os.listdir('sample_images')
     test_image = st.selectbox('Please select a test image:', test_images)
-    file_path = 'sample_images/' + test_image
-    img = image.load_img(file_path, target_size=(180,180,3))
-    pred_class = predict_img(img)
-    col1, col2 = st.columns(2)
-    with col1:
-        st.image(img, width=200)
-    with col2:
-        st.success("Skin Cancer Type:  [" + str(pred_class) + "] ")
-    form()
+    if st.button('Submit'):
+        file_path = 'sample_images/' + test_image
+        img = image.load_img(file_path, target_size=(180,180,3))
+        pred_class = predict_img(img)
+        col1, col2 = st.columns(2)
+        with col1:
+            st.image(img, width=200)
+        with col2:
+            st.success("Skin Cancer Type:  [" + str(pred_class) + "] ")
+        form()
