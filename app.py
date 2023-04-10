@@ -4,11 +4,20 @@ import database as db
 from keras.models import model_from_json
 import numpy as np
 from tensorflow.keras.preprocessing import image
+if os.path.exists('my_model_weights.h5'):
+    pass
+else:
+    weight_url = "https://drive.google.com/file/d/1VQLiKq0kl7xKbbPW811rXHzVXALNDEIe/view?usp=share_link"
+    gdown.download(weight_url, 'my_model_weights.h5', quiet=False,fuzzy=True)
+if os.path.exists('model_arch.json'):
+    pass
+else:
+    json_url = "https://drive.google.com/file/d/1VERgHC7PRg0gIm6XX4wWvobP_trwvfBS/view?usp=sharing"
+    gdown.download(json_url, 'model_arch.json', quiet=False,fuzzy=True)
 with open('model_arch.json', 'r') as json_file:
     json_savedModel= json_file.read()
 model = model_from_json(json_savedModel)
 model.load_weights('my_model_weights.h5')
-
 
 
 def form():
