@@ -8,12 +8,12 @@ from tensorflow.keras.preprocessing import image
 if os.path.exists('my_model_weights.h5'):
     pass
 else:
-    weight_url = "https://drive.google.com/file/d/1VQLiKq0kl7xKbbPW811rXHzVXALNDEIe/view?usp=share_link"
+    weight_url = "https://drive.google.com/file/d/19C-vC8XU781kLmljkfQcJyAMdLm9NDfR/view?usp=share_link"
     gdown.download(weight_url, 'my_model_weights.h5', quiet=False,fuzzy=True)
 if os.path.exists('model_arch.json'):
     pass
 else:
-    json_url = "https://drive.google.com/file/d/1VERgHC7PRg0gIm6XX4wWvobP_trwvfBS/view?usp=sharing"
+    json_url = "https://drive.google.com/file/d/1cFCgXFceVDkQbyd75EfuxKwVE5CL6sG6/view?usp=sharing"
     gdown.download(json_url, 'model_arch.json', quiet=False,fuzzy=True)
 with open('model_arch.json', 'r') as json_file:
     json_savedModel= json_file.read()
@@ -66,13 +66,13 @@ def predict_img(img):
     input_img = np.expand_dims(input_img, axis=0)
     predict_img = model.predict(input_img)
     y_pred = np.argmax(predict_img, axis=1)
-    target_names = ['Actinic Keratosis', 'Basal Cell Carcinoma', 'Dermatofibroma','Squamous Cell Carcinoma' , 'Nevus', 'Pigmented Benign Keratosis', 'Seborrheic Keratosis', 'Melanoma', 'Vascular Lesion']
+    target_names = ['Benign', 'Early', 'Pre','Pro']
     return target_names[y_pred[0]]
 
 html_temp = """
     <div style="background-color:#f63366;padding:10px;margin-bottom: 25px">
-    <h2 style="color:white;text-align:center;">Skin Cancer Detection</h2>
-    <p style="color:white;text-align:center;" >This is a <b>Streamlit</b> app use for prediction of the <b>9 type of Skin Cancer</b>.</p>
+    <h2 style="color:white;text-align:center;">Leukemia Stage Detection</h2>
+    <p style="color:white;text-align:center;" >This is a <b>Streamlit</b> app use for prediction of the <b>4 Stage of Leukemia</b>.</p>
     </div>
     """
 st.markdown(html_temp,unsafe_allow_html=True)
@@ -82,24 +82,23 @@ if option == 'Choose your own image':
     uploaded_file = st.file_uploader("Choose an image...", type="jpg") #file upload
     if uploaded_file is not None:
         
-        img = image.load_img(uploaded_file, target_size=(180,180,3))
+        img = image.load_img(uploaded_file, target_size=(224, 224))
         pred_class = predict_img(img)
         col1, col2 = st.columns(2)
         with col1:
             st.image(img, width=200)
         with col2:
-            st.success("Skin Cancer Type:  [" + str(pred_class) + "] ")
+            st.success("Leukemia Stage:  [" + str(pred_class) + "] ")
         form()
 else:
     test_images = os.listdir('sample_images')
     test_image = st.selectbox('Please select a test image:', test_images)
-    if st.button('Submit'):
-        file_path = 'sample_images/' + test_image
-        img = image.load_img(file_path, target_size=(180,180,3))
-        pred_class = predict_img(img)
-        col1, col2 = st.columns(2)
-        with col1:
-            st.image(img, width=200)
-        with col2:
-            st.success("Skin Cancer Type:  [" + str(pred_class) + "] ")
-        form()
+    file_path = 'sample_images/' + test_image
+    img = image.load_img(file_path, target_size=(224, 224))
+    pred_class = predict_img(img)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image(img, width=200)
+    with col2:
+        st.success("Leukemia Stage:  [" + str(pred_class) + "] ")
+    form()
