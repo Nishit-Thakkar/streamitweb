@@ -59,46 +59,42 @@ def form():
             st.markdown('Contact: '+str(pat_contact))
             st.markdown('Aadhar: '+str(aadhar))
             st.markdown('Prediction : '+pred)
-
-
 def predict_img(img):
     input_img = image.img_to_array(img)
     input_img = np.expand_dims(input_img, axis=0)
     predict_img = model.predict(input_img)
     y_pred = np.argmax(predict_img, axis=1)
-    target_names = ['Benign', 'Early', 'Pre','Pro']
+    target_names = ['Actinic Keratosis', 'Basal Cell Carcinoma', 'Dermatofibroma','Squamous Cell Carcinoma' , 'Nevus', 'Pigmented Benign Keratosis', 'Seborrheic Keratosis', 'Melanoma', 'Vascular Lesion']
     return target_names[y_pred[0]]
-
 html_temp = """
     <div style="background-color:#f63366;padding:10px;margin-bottom: 25px">
-    <h2 style="color:white;text-align:center;">Leukemia Stage Detection</h2>
-    <p style="color:white;text-align:center;" >This is a <b>Streamlit</b> app use for prediction of the <b>4 Stage of Leukemia</b>.</p>
+    <h2 style="color:white;text-align:center;">Skin Cancer Detection</h2>
+    <p style="color:white;text-align:center;" >This is a <b>Streamlit</b> app use for prediction of the <b>9 type of Skin Cancer</b>.</p>
     </div>
     """
 st.markdown(html_temp,unsafe_allow_html=True)
-
 option = st.radio('', ['Choose a test image', 'Choose your own image'])
 if option == 'Choose your own image':
     uploaded_file = st.file_uploader("Choose an image...", type="jpg") #file upload
     if uploaded_file is not None:
         
-        img = image.load_img(uploaded_file, target_size=(224, 224))
+        img = image.load_img(uploaded_file, target_size=(180,180,3))
         pred_class = predict_img(img)
         col1, col2 = st.columns(2)
         with col1:
             st.image(img, width=200)
         with col2:
-            st.success("Leukemia Stage:  [" + str(pred_class) + "] ")
+            st.success("Skin Cancer Type:  [" + str(pred_class) + "] ")
         form()
 else:
     test_images = os.listdir('sample_images')
     test_image = st.selectbox('Please select a test image:', test_images)
     file_path = 'sample_images/' + test_image
-    img = image.load_img(file_path, target_size=(224, 224))
+    img = image.load_img(file_path, target_size=(180,180,3))
     pred_class = predict_img(img)
     col1, col2 = st.columns(2)
     with col1:
         st.image(img, width=200)
     with col2:
-        st.success("Leukemia Stage:  [" + str(pred_class) + "] ")
+        st.success("Skin Cancer Type:  [" + str(pred_class) + "] ")
     form()
