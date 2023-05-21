@@ -67,7 +67,7 @@ def predict_img(img):
     target_names = ['Actinic Keratosis', 'Basal Cell Carcinoma', 'Dermatofibroma','Melanoma' , 'Nevus', 'Pigmented Benign Keratosis', 'Seborrheic Keratosis', 'Squamous Cell Carcinoma', 'Vascular Lesion']
     return target_names[y_pred[0]]
 html_temp = """
-    <div style="background-color:#f63366;padding:10px;margin-bottom: 25px">
+    <div style="background-color:#8338ec;padding:10px;margin-bottom: 25px">
     <h2 style="color:white;text-align:center;">Skin Cancer Detection</h2>
     <p style="color:white;text-align:center;" >This is a <b>Streamlit</b> app use for prediction of the <b>9 type of Skin Cancer</b>.</p>
     </div>
