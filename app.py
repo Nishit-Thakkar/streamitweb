@@ -98,3 +98,4 @@ else:
     with col2:
         st.success("Skin Cancer Type:  [" + str(pred_class) + "] ")
     form()
+
