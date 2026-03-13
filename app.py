@@ -99,4 +99,3 @@ else:
         st.success("Skin Cancer Type:  [" + str(pred_class) + "] ")
     form()
 
-
